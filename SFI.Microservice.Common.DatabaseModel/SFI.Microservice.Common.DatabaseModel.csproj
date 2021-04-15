@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\SFI.Microservice.Common.DatabaseLayer\SFI.Microservice.Common.DatabaseLayer.csproj" />
+  </ItemGroup>
+
+</Project>

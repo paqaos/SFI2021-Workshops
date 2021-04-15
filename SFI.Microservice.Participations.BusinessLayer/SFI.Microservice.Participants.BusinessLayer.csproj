@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SFI.Microservice.Common.BusinessLayer\SFI.Microservice.Common.BusinessLayer.csproj" />
+    <ProjectReference Include="..\SFI.Microservice.Common.DatabaseModel\SFI.Microservice.Common.DatabaseModel.csproj" />
+  </ItemGroup>
+</Project>

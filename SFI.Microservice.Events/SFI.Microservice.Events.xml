@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SFI.Microservice.Events</name>
+    </assembly>
+    <members>
+        <member name="M:SFI.Microservice.Events.Controllers.EventsController.GetSingleItem(System.Int32)">
+            <summary>
+            Gets single event item
+            </summary>
+            <param name="eventId">Id of event to retrieve</param>
+            <returns>Class containing event data</returns>
+        </member>
+    </members>
+</doc>
