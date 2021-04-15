@@ -18,7 +18,7 @@ namespace SFI.Microservice.Events.BusinessLayer.Services
             switch (name)
             {
                 case "event-created":
-                    return JsonSerializer.Deserialize<EventBaseCreatedEventBase>(content);
+                    return JsonSerializer.Deserialize<EventBaseCreatedEvent>(content);
                 default:
                     return null;
             }

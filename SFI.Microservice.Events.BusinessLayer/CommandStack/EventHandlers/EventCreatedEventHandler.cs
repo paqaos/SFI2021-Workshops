@@ -8,10 +8,10 @@ using SFI.Microservice.Events.Dto.Events;
 
 namespace SFI.Microservice.Events.BusinessLayer.CommandStack.EventHandlers
 {
-    public class EventCreatedEventHandler : IEventHandler<EventBaseCreatedEventBase>
+    public class EventCreatedEventHandler : IEventHandler<EventBaseCreatedEvent>
     {
         /// <inheritdoc />
-        public Task HandleAsync(EventBaseCreatedEventBase eventBaseToHandler)
+        public Task HandleAsync(EventBaseCreatedEvent eventBaseToHandler)
         {
             Console.WriteLine("Siema!");
             return Task.CompletedTask;

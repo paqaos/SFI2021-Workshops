@@ -25,7 +25,7 @@ namespace SFI.Microservice.Common.DatabaseLayer
         /// <inheritdoc />
         public TData Create(TData input)
         {
-            long maxId = _storage.Max(x => x.Id);
+            long maxId = _storage.Any() ? _storage.Max(x => x.Id) : 0;
             input.Id = maxId + 1;
             _storage.Add(input);
 

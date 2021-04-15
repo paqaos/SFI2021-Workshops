@@ -18,10 +18,18 @@ namespace SFI.Microservice.Events.Controllers
     [ApiController]
     public class EventsController : ControllerBase
     {
-        [HttpGet]
-        public List<EventDto> GetAllItems()
+        private readonly IReadService<EventItem> _eventItemReadService;
+
+        /// <inheritdoc />
+        public EventsController(IReadService<EventItem> eventItemReadService)
         {
-            return new List<EventDto>();
+            _eventItemReadService = eventItemReadService;
+        }
+
+        [HttpGet]
+        public List<EventItem> GetAllItems()
+        {
+            return _eventItemReadService.GetAll();
         }
     }
 }

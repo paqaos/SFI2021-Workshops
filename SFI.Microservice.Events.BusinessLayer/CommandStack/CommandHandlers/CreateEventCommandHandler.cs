@@ -36,7 +36,7 @@ namespace SFI.Microservice.Events.BusinessLayer.CommandStack.CommandHandlers
                 Date = DateTime.UtcNow
             });
 
-            await _azureServiceBusHandler.SendEvent(new EventBaseCreatedEventBase());
+            await _azureServiceBusHandler.SendEvent(new EventBaseCreatedEvent());
 
             return _mapper.Map<EventDto>(item);
         }

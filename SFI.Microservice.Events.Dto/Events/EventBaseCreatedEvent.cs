@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SFI.Microservice.Events.Dto.Events
 {
-    public class EventBaseCreatedEventBase : EventBase
+    public class EventBaseCreatedEvent : EventBase
     {
         /// <inheritdoc />
         public string Name => "event-created";

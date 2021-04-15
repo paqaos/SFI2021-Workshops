@@ -21,7 +21,30 @@ namespace SFI.Microservice.Events.Configuration
     {
         public static Container ConfigureSimpleInjector(Container container, IConfiguration configuration)
         {
-            
+            container.Register(typeof(IReadService<>), typeof(ReadService<>));
+
+            container.Register<IWriteService<EventItem>, WriteService<EventItem>>();
+
+            container.Register<IRepository<EventItem>, MemoryRepository<EventItem>>();
+
+            container.RegisterDecorator<IReadService<EventItem>, MemoryCacheService<EventItem>>();
+
+            container.Collection.Register(typeof(IEventHandler<>), typeof(EventCreatedEventHandler).Assembly);
+
+            container.RegisterInitializer<IRepository<EventItem>>(repo =>
+            {
+                repo.Create(new EventItem
+                {
+                    Id = 1,
+                    Name = "SFI 2021"
+                });
+                repo.Create(new EventItem
+                {
+                    Id = 5,
+                    Name = "C# Microservices"
+                });
+            });
+
             return container;
         }
     }

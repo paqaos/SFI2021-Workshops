@@ -12,9 +12,7 @@
     </ItemGroup>
     <Copy SourceFiles="@(DocFile)" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="false" />
   </Target>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\Users\pawel\Documents\GitHub\C-microservice-preparation\SFI.CMicroservice\SFI.Microservice.Events\SFI.Microservice.Events.xml</DocumentationFile>
-  </PropertyGroup>
+ 
 
   <ItemGroup>
 
