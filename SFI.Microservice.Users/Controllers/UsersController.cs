@@ -1,12 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using SFI.Microservice.Common.BusinessLayer;
 using SFI.Microservice.Common.BusinessLayer.CommandStack.CommandHandlers;
 using SFI.Microservice.Common.BusinessLayer.CommandStack.QueryHandlers;
 using SFI.Microservice.Common.BusinessLayer.Services;
@@ -22,6 +17,19 @@ namespace SFI.Microservice.Users.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+        private readonly IQueryHandler<GetAllUsersQuery, List<UserDto>> _getAllUsersQueryHandler;
+        private readonly ICommandHandler<AddUserCommand, UserDto> _addUserCommandHandler;
+        private readonly IReadService<User> _userReadService;
+        private readonly IWriteService<User> _userWriteService;
+
+        public UsersController(IQueryHandler<GetAllUsersQuery, List<UserDto>> getAllUsersQueryHandler, IReadService<User> userReadService, ICommandHandler<AddUserCommand, UserDto> addUserCommandHandler, IWriteService<User> userWriteService)
+        {
+            _getAllUsersQueryHandler = getAllUsersQueryHandler;
+            _userReadService = userReadService;
+            _addUserCommandHandler = addUserCommandHandler;
+            _userWriteService = userWriteService;
+        }
+
         /// <summary>
         /// Get all users 
         /// </summary>
@@ -30,8 +38,34 @@ namespace SFI.Microservice.Users.Controllers
         [HttpGet]
         public async Task<List<UserDto>> GetAllUsersAsync(CancellationToken ct)
         {
-            
-            return new List<UserDto>();
+            var result = await _getAllUsersQueryHandler.ExecuteQueryAsync(new GetAllUsersQuery(), ct);
+
+            return result;
+        }
+
+        [HttpGet("{userId:int}")]
+        public UserDto GetUserData(int userId, CancellationToken ct)
+        {
+            return _userReadService.GetById<UserDto>(userId, ct);
+        }
+
+        [HttpPost("")]
+        public async Task<UserDto> CreateUserAsync(CreateUserDto userData, CancellationToken ct)
+        {
+            return await _addUserCommandHandler.ExecuteAsync(new AddUserCommand
+            {
+                FirstName = userData.FirstName,
+                LastName = userData.LastName,
+                Nickname = userData.Nickname
+            }, ct);
+        }
+
+        [HttpDelete("{userId:int}")]
+        public Task<bool> DeleteUserAsync(int userId, CancellationToken ct)
+        {
+            var user = _userReadService.GetById(userId);
+
+            return Task.FromResult(_userWriteService.Delete(user));
         }
     }
 }

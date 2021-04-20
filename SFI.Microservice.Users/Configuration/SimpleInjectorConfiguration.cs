@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using SFI.Microservice.Common.BusinessLayer;
-using SFI.Microservice.Common.BusinessLayer.CommandStack.CommandHandlers;
+﻿using SFI.Microservice.Common.BusinessLayer.CommandStack.CommandHandlers;
 using SFI.Microservice.Common.BusinessLayer.CommandStack.QueryHandlers;
 using SFI.Microservice.Common.BusinessLayer.Services;
 using SFI.Microservice.Common.DatabaseLayer;
@@ -18,7 +13,13 @@ namespace SFI.Microservice.Users.Configuration
     {
         public static Container ConfigureSimpleInjector(Container container)
         {
-          
+            container.Register(typeof(IWriteService<>), typeof(WriteService<>));
+            container.Register(typeof(IReadService<>), typeof(ReadService<>));
+            container.Register(typeof(IQueryHandler<,>), typeof(GetAllUsersQueryHandler).Assembly);
+            container.Register(typeof(ICommandHandler<,>), typeof(GetAllUsersQueryHandler).Assembly);
+
+            container.Register<IRepository<User>, EFUsersRepository>();
+
             return container;
         }
     }

@@ -20,7 +20,23 @@ namespace SFI.Microservice.Participants.DatabaseLayer.Repositories
 
         public Participant Create(Participant input)
         {
-            throw new NotImplementedException();
+            using (IDbConnection db = new SqlConnection(_connectionString))
+            {
+                var sql =
+                    @"select * from dbo.Participants p
+inner join dbo.Users u on p.UserId = u.Id
+inner join dbo.Events e on p.EventId = e.Id";
+
+                db.Execute($"INSERT INTO dbo.Participants (UserId, EventId, Confirmed, IsDeleted) VALUES ('{input.User.Id}', '{input.Event.Id}', 'False', 'False')");
+                var data = db.Query<Participant, User, EventItem, Participant>(sql, (p, u, e) =>
+                {
+                    p.Event = e;
+                    p.User = u;
+                    return p;
+                });
+
+                return data.ToList().FirstOrDefault();
+            }
         }
 
         public Participant Read(long id)
@@ -42,6 +58,7 @@ inner join dbo.Events e on p.EventId = e.Id";
                 {
                     p.Event = e;
                     p.User = u;
+
                     return p;
                 });
 

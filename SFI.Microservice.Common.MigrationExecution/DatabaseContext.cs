@@ -13,12 +13,12 @@ namespace SFI.Microservice.Common.MigrationExecution
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=tcp:sfi-server.database.windows.net,1433;Initial Catalog=<----your-database---->;Persist Security Info=False;User ID=sfiadmin;Password=Test@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            optionsBuilder.UseSqlServer(@"Server=tcp:sfi-server.database.windows.net,1433;Initial Catalog=sfi-database-lead;Persist Security Info=False;User ID=sfiadmin;Password=Test@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            var eventItem = modelBuilder.Entity<EventItem>()
+            modelBuilder.Entity<EventItem>()
                         .ToTable("Events")
                         .HasMany(x => x.Speakers)
                         .WithMany(x => x.Sessions);

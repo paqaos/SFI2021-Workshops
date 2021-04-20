@@ -34,11 +34,13 @@ namespace SFI.Microservice.Events
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             string ManagedNetworkingAppContextSwitch = "Switch.Microsoft.Data.SqlClient.UseManagedNetworkingOnWindows";
             AppContext.SetSwitch(ManagedNetworkingAppContextSwitch, true);
 
             services.AddControllers();
+
+            services.AddDbContext<EventsDbContext>(options =>
+                options.UseSqlServer(Configuration["ConnectionStrings:EventsDbContext"]));
 
             services.AddMvc()
                     .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = null)
@@ -48,9 +50,13 @@ namespace SFI.Microservice.Events
                         options.SerializerSettings.ContractResolver = new DefaultContractResolver();
                     })
                     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(typeof(CreateEventValidator).Assembly));
-                    
+
+            services.AddMemoryCache();
+            services.AddStackExchangeRedisCache(options => options.Configuration = Configuration["ConnectionStrings:Redis"]);
        
             services.AddAutoMapper(config => config.AddProfile<EventProfile>());
+
+            services.AddHttpClient("Users", client => client.BaseAddress = new Uri(Configuration["Services:Users"]));
 
             services.AddSimpleInjector(_container, options =>
             {
@@ -93,7 +99,7 @@ namespace SFI.Microservice.Events
                 endpoints.MapControllers();
             });
 
-           
+            _container.GetInstance<IAzureServiceBusHandler>();
         }
     }
 }

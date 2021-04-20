@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Azure.Messaging.ServiceBus;
-using Newtonsoft.Json;
 using SFI.Microservice.Common.BusinessLayer.CommandStack.EventHandlers;
 using SFI.Microservice.Common.BusinessLayer.CommandStack.Events;
 using SimpleInjector;

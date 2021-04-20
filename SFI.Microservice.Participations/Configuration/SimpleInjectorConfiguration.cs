@@ -12,6 +12,14 @@ namespace SFI.Microservice.Participants.Configuration
     {
         public static Container ConfigureSimpleInjector(Container container)
         {
+            container.Register(typeof(IWriteService<>), typeof(WriteService<>));
+            container.Register(typeof(IReadService<>), typeof(ReadService<>));
+
+            container.Register<IRepository<Participant>, DapperParticipationsRepository>();
+
+            container.Register(typeof(ICommandHandler<,>), typeof(MarkAsParticipantCommandHandler).Assembly);
+
+
             return container;
         }
     }

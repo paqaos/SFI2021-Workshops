@@ -10,6 +10,8 @@ namespace SFI.Microservice.Common.DatabaseLayer
     {
         public string DataType => typeof(T).Name;
 
+        public string Version => "0.0.1";
+
         public new string Id { get; set; }
 
         public int RelatedDocumentId { get; set; }
